@@ -1,10 +1,16 @@
 'use client';
 
+import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { useInventoryStore } from '@/store/inventoryStore';
 
 export function StepIntro() {
-  const { setCurrentStep } = useInventoryStore();
+  const { setCurrentStep, loadTemplate } = useInventoryStore();
+  const [showTemplateConfirm, setShowTemplateConfirm] = useState(false);
+
+  const handleLoadTemplate = () => {
+    loadTemplate();
+  };
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-b from-amber-50 to-white px-4 py-12">
@@ -74,6 +80,49 @@ export function StepIntro() {
         >
           開始盤點
         </Button>
+
+        {/* Template Section */}
+        <div className="border border-dashed border-amber-300 rounded-xl p-5 bg-amber-50/60">
+          {!showTemplateConfirm ? (
+            <div className="flex flex-col sm:flex-row items-center gap-4">
+              <div className="flex-1 text-center sm:text-left">
+                <p className="text-sm font-semibold text-amber-800">不知道怎麼填？</p>
+                <p className="text-xs text-gray-500 mt-0.5">載入一份已填好的範例，參考後再修改成自己的內容</p>
+              </div>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => setShowTemplateConfirm(true)}
+                className="shrink-0 border-amber-400 text-amber-800 hover:bg-amber-100 hover:text-amber-900"
+              >
+                📋 帶入範本
+              </Button>
+            </div>
+          ) : (
+            <div className="space-y-3 text-center">
+              <p className="text-sm text-gray-700">
+                帶入範本後，所有欄位將填入<span className="font-semibold text-amber-800">示範內容</span>，你可以直接修改成自己的資料。
+              </p>
+              <div className="flex gap-3 justify-center">
+                <Button
+                  size="sm"
+                  onClick={handleLoadTemplate}
+                  className="bg-amber-600 hover:bg-amber-700 text-white"
+                >
+                  確認帶入
+                </Button>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => setShowTemplateConfirm(false)}
+                  className="border-gray-300 text-gray-600 hover:bg-gray-50"
+                >
+                  取消
+                </Button>
+              </div>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );
