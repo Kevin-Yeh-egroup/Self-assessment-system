@@ -30,20 +30,7 @@ export function Step8SupportNetworkMap() {
           className="w-full h-auto"
           style={{ maxHeight: '400px' }}
         >
-          {/* Center circle - "你" */}
-          <circle cx="200" cy="200" r="30" fill="#d97706" className="drop-shadow" />
-          <text
-            x="200"
-            y="210"
-            textAnchor="middle"
-            fontSize="14"
-            fontWeight="bold"
-            fill="white"
-          >
-            你
-          </text>
-
-          {/* Support type nodes */}
+          {/* Support type nodes - lines first so center circle renders on top */}
           {/* Family (top-left) */}
           {typeCounts.family > 0 && (
             <>
@@ -99,6 +86,20 @@ export function Step8SupportNetworkMap() {
               </text>
             </>
           )}
+
+          {/* Center circle - "你" rendered last to appear above all lines */}
+          <circle cx="200" cy="200" r="30" fill="#d97706" className="drop-shadow" />
+          <text
+            x="200"
+            y="200"
+            textAnchor="middle"
+            dominantBaseline="central"
+            fontSize="16"
+            fontWeight="bold"
+            fill="white"
+          >
+            你
+          </text>
         </svg>
       </div>
 

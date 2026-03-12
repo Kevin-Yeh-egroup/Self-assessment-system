@@ -1,5 +1,6 @@
 'use client';
 
+import { useEffect } from 'react';
 import { useInventoryStore } from '@/store/inventoryStore';
 import { StepIntro } from './steps/StepIntro';
 import { Step1Personal } from './steps/Step1Personal';
@@ -15,6 +16,10 @@ import { Step10SocialWorkerDiscussion } from './steps/Step10SocialWorkerDiscussi
 
 export function InventoryApp() {
   const { currentStep } = useInventoryStore();
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'instant' });
+  }, [currentStep]);
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-amber-50 to-white">
@@ -66,7 +71,7 @@ export function InventoryApp() {
       {currentStep > 0 && (
         <footer className="border-t border-gray-200 bg-gray-50 py-4 text-center">
           <p className="text-xs text-gray-500">
-            AI 個案能力地圖系統 • 社工版 v1.0
+            AI 個案能力地圖系統 • 財務健康版 v1.0
           </p>
         </footer>
       )}

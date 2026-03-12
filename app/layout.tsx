@@ -7,8 +7,8 @@ const _geist = Geist({ subsets: ["latin"] });
 const _geistMono = Geist_Mono({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: 'AI 個案能力地圖系統 - 社工版',
-  description: '為社工人員設計的 AI 輔助自我資源盤點系統，幫助案主反思能力、經歷與支持系統，生成能力地圖供討論使用。',
+  title: 'AI 個案能力地圖系統 - 財務健康版',
+  description: '為財務健康諮詢師設計的 AI 輔助自我資源盤點系統，幫助案主反思能力、經歷與支持系統，生成能力地圖供討論使用。',
   generator: 'v0.app',
   viewport: {
     width: 'device-width',

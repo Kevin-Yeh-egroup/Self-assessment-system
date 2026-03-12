@@ -151,7 +151,7 @@ export function Step9DevelopmentSuggestions() {
           onClick={() => setCurrentStep(currentStep + 1)}
           className="flex-1 h-12 bg-amber-600 hover:bg-amber-700 text-white rounded-lg"
         >
-          與社工討論
+          與財務健康諮詢師一起討論
         </Button>
       </div>
     </div>

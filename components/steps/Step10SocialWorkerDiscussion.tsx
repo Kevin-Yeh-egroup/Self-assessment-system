@@ -1,9 +1,11 @@
 'use client';
 
+import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { useInventoryStore } from '@/store/inventoryStore';
 import { StepHeader } from './StepHeader';
 import { MessageCircle, Download, RefreshCw } from 'lucide-react';
+import { generateWordReport } from '@/lib/generateWordReport';
 
 const DISCUSSION_PROMPTS = [
   {
@@ -29,11 +31,17 @@ const DISCUSSION_PROMPTS = [
 ];
 
 export function Step10SocialWorkerDiscussion() {
-  const { currentStep, setCurrentStep, reset } = useInventoryStore();
+  const store = useInventoryStore();
+  const { currentStep, setCurrentStep, reset } = store;
+  const [downloading, setDownloading] = useState(false);
 
-  const handleDownload = () => {
-    // In a real app, this would generate a PDF report
-    alert('在實際應用中，系統會生成可下載的能力地圖報告。');
+  const handleDownload = async () => {
+    setDownloading(true);
+    try {
+      await generateWordReport(store);
+    } finally {
+      setDownloading(false);
+    }
   };
 
   const handleRestart = () => {
@@ -45,7 +53,7 @@ export function Step10SocialWorkerDiscussion() {
     <div className="space-y-8">
       <StepHeader
         step={10}
-        title="與社工一起討論"
+        title="與財務健康諮詢師一起討論"
         subtitle="完整的盤點已準備好，讓我們深入探討"
       />
 
@@ -88,7 +96,7 @@ export function Step10SocialWorkerDiscussion() {
           <li className="flex gap-3">
             <span className="font-bold">1️⃣</span>
             <span>
-              <strong>與社工討論：</strong>
+              <strong>與財務健康諮詢師討論：</strong>
               使用上述問題作為討論起點，深入探討你的計畫
             </span>
           </li>
@@ -113,23 +121,26 @@ export function Step10SocialWorkerDiscussion() {
       <div className="space-y-3 border-t border-gray-200 pt-6">
         <button
           onClick={handleDownload}
-          className="w-full bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-700 hover:to-orange-700 text-white font-semibold py-3 rounded-lg flex items-center justify-center gap-2 transition-all"
+          disabled={downloading}
+          className="w-full bg-gradient-to-r from-amber-600 to-orange-600 hover:from-amber-700 hover:to-orange-700 active:scale-[0.98] active:from-amber-800 active:to-orange-800 disabled:opacity-60 text-white font-semibold py-3 rounded-lg flex items-center justify-center gap-2 transition-all"
         >
           <Download className="w-5 h-5" />
-          下載能力地圖
+          {downloading ? '產生中…' : '下載能力地圖（Word）'}
         </button>
 
-        <button
-          onClick={() => alert('在實際應用中，你可以直接與社工分享這份報告。')}
-          className="w-full border-2 border-amber-600 text-amber-600 hover:bg-amber-50 font-semibold py-3 rounded-lg flex items-center justify-center gap-2 transition-all"
+        <a
+          href="https://www.familyfinhealth.com/online-consultation"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="w-full border-2 border-amber-600 text-amber-600 hover:bg-amber-50 active:bg-amber-100 active:scale-[0.98] active:border-amber-700 font-semibold py-3 rounded-lg flex items-center justify-center gap-2 transition-all"
         >
           <MessageCircle className="w-5 h-5" />
-          與社工分享
-        </button>
+          與財務健康諮詢師一起討論
+        </a>
 
         <button
           onClick={handleRestart}
-          className="w-full border-2 border-gray-300 text-gray-700 hover:bg-gray-50 font-semibold py-3 rounded-lg flex items-center justify-center gap-2 transition-all"
+          className="w-full border-2 border-gray-300 text-gray-700 hover:bg-gray-50 active:bg-gray-200 active:scale-[0.98] active:border-gray-400 font-semibold py-3 rounded-lg flex items-center justify-center gap-2 transition-all"
         >
           <RefreshCw className="w-5 h-5" />
           重新修改資料
@@ -141,7 +152,7 @@ export function Step10SocialWorkerDiscussion() {
         <p className="text-2xl">🎉</p>
         <h3 className="font-bold text-gray-800">盤點完成！</h3>
         <p className="text-sm text-gray-700">
-          感謝你的耐心填寫。這份能力地圖將成為你與社工討論和規劃的重要依據。
+          感謝你的耐心填寫。這份能力地圖將成為你與財務健康諮詢師討論和規劃的重要依據。
         </p>
       </div>
     </div>

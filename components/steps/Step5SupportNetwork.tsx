@@ -198,7 +198,7 @@ export function Step5SupportNetwork() {
           disabled={!canProceed}
           className="flex-1 h-12 bg-amber-600 hover:bg-amber-700 text-white rounded-lg disabled:opacity-50"
         >
-          下一步
+          完成填寫，查看能力與資源地圖
         </Button>
       </div>
     </div>

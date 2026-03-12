@@ -26,7 +26,7 @@ export function Step7CapabilityRadar() {
       {/* Radar Chart */}
       <div className="bg-white rounded-lg p-6 border border-amber-200 shadow-md">
         <ResponsiveContainer width="100%" height={400}>
-          <RadarChart data={chartData} margin={{ top: 20, right: 30, left: 20, bottom: 20 }}>
+          <RadarChart data={chartData} startAngle={90} endAngle={-270} margin={{ top: 20, right: 30, left: 20, bottom: 20 }}>
             <PolarGrid
               stroke="rgba(217, 119, 6, 0.2)"
               strokeDasharray="3 3"
@@ -34,7 +34,6 @@ export function Step7CapabilityRadar() {
             <PolarAngleAxis
               dataKey="name"
               tick={{ fill: '#6b7280', fontSize: 11 }}
-              angle={90}
               orientation="outer"
             />
             <PolarRadiusAxis

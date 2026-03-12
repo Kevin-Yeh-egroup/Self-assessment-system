@@ -3,7 +3,7 @@
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
-import { useInventoryStore, WorkExperience, Training } from '@/store/inventoryStore';
+import { useInventoryStore, WorkExperience, Training, Certificate } from '@/store/inventoryStore';
 import { StepHeader } from './StepHeader';
 import { Plus, Trash2 } from 'lucide-react';
 import { useState } from 'react';
@@ -22,7 +22,8 @@ export function Step3Experience() {
     setWorkSkills,
     addTraining,
     removeTraining,
-    setCertificates,
+    addCertificate,
+    removeCertificate,
     setCurrentStep,
   } = useInventoryStore();
 
@@ -32,6 +33,12 @@ export function Step3Experience() {
     jobTitle: '',
     jobContent: '',
     duration: '',
+  });
+
+  // Certificate form state
+  const [certForm, setCertForm] = useState<Partial<Certificate>>({
+    name: '',
+    year: '',
   });
 
   // Training form state
@@ -47,7 +54,19 @@ export function Step3Experience() {
     lastSchool.trim() &&
     workExperiences.length > 0 &&
     workSkills.trim() &&
-    certificates.trim();
+    certificates.length > 0;
+
+  const handleAddCertificate = () => {
+    const trimmedName = certForm.name?.trim();
+    if (trimmedName) {
+      addCertificate({
+        id: Date.now().toString(),
+        name: trimmedName,
+        year: certForm.year?.trim() || undefined,
+      });
+      setCertForm({ name: '', year: '' });
+    }
+  };
 
   const handleAddWork = () => {
     if (workForm.period && workForm.jobTitle && workForm.jobContent && workForm.duration) {
@@ -266,17 +285,78 @@ export function Step3Experience() {
       </div>
 
       {/* Certificates */}
-      <div className="space-y-3">
-        <label className="block text-sm font-semibold text-gray-800">
+      <div className="space-y-4">
+        <h3 className="text-base font-semibold text-gray-800">
           我擁有的證照
           <span className="text-red-500 ml-1">*</span>
-        </label>
-        <Textarea
-          placeholder="例如：照顧服務員證、CPR 認證..."
-          value={certificates}
-          onChange={(e) => setCertificates(e.target.value)}
-          className="min-h-20 resize-none rounded-lg border-amber-200 bg-white focus:ring-amber-400"
-        />
+        </h3>
+
+        {/* Certificate Entry Form */}
+        <div className="bg-amber-50 rounded-lg p-4 space-y-3 border border-amber-200">
+          <div className="grid grid-cols-2 gap-3">
+            <Input
+              placeholder="證照名稱（必填）"
+              value={certForm.name || ''}
+              onChange={(e) => setCertForm({ ...certForm, name: e.target.value })}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') {
+                  e.preventDefault();
+                  handleAddCertificate();
+                }
+              }}
+              className="rounded-lg"
+            />
+            <Input
+              placeholder="取得年份（選填）"
+              value={certForm.year || ''}
+              onChange={(e) => setCertForm({ ...certForm, year: e.target.value })}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') {
+                  e.preventDefault();
+                  handleAddCertificate();
+                }
+              }}
+              className="rounded-lg"
+            />
+          </div>
+          <Button
+            onClick={handleAddCertificate}
+            size="sm"
+            disabled={!certForm.name?.trim()}
+            className="w-full bg-amber-600 hover:bg-amber-700 text-white disabled:opacity-40"
+          >
+            <Plus className="w-4 h-4 mr-2" />
+            新增證照
+          </Button>
+        </div>
+
+        {/* Certificate Card List */}
+        {certificates.length > 0 && (
+          <div className="space-y-2">
+            {certificates.map((cert) => (
+              <div
+                key={cert.id}
+                className="bg-white p-4 rounded-lg border border-amber-100 flex justify-between items-center"
+              >
+                <div className="flex items-center gap-3">
+                  <span className="text-amber-500 text-lg">🏅</span>
+                  <div>
+                    <p className="font-semibold text-gray-800">{cert.name}</p>
+                    {cert.year && (
+                      <p className="text-xs text-gray-500 mt-0.5">取得年份：{cert.year}</p>
+                    )}
+                  </div>
+                </div>
+                <button
+                  onClick={() => removeCertificate(cert.id)}
+                  className="text-red-500 hover:text-red-700 ml-4"
+                >
+                  <Trash2 className="w-4 h-4" />
+                </button>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
 
       {/* Navigation Buttons */}

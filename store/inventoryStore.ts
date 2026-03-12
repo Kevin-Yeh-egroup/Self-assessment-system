@@ -17,6 +17,12 @@ export interface Training {
   hasCertificate: boolean;
 }
 
+export interface Certificate {
+  id: string;
+  name: string;
+  year?: string;
+}
+
 export interface SupportPerson {
   id: string;
   name: string;
@@ -43,7 +49,7 @@ export interface InventoryState {
   workExperiences: WorkExperience[];
   workSkills: string;
   trainings: Training[];
-  certificates: string;
+  certificates: Certificate[];
   
   // Step 4: Life Story
   majorTurning: string;
@@ -83,7 +89,8 @@ export interface InventoryState {
   setWorkSkills: (value: string) => void;
   addTraining: (training: Training) => void;
   removeTraining: (id: string) => void;
-  setCertificates: (value: string) => void;
+  addCertificate: (cert: Certificate) => void;
+  removeCertificate: (id: string) => void;
   setMajorTurning: (value: string) => void;
   setHelpingPeople: (value: string) => void;
   setAffirmations: (value: string) => void;
@@ -145,7 +152,10 @@ const templateData = {
       hasCertificate: false,
     },
   ],
-  certificates: '居家照顧服務員結業證書（2017）、食品安全衛生管理人員訓練證書（2016）',
+  certificates: [
+    { id: 'tmpl-c1', name: '居家照顧服務員結業證書', year: '2017' },
+    { id: 'tmpl-c2', name: '食品安全衛生管理人員訓練證書', year: '2016' },
+  ],
 
   // Step 4
   majorTurning: '家中長輩在我 28 歲時生病需要人照顧，我決定暫停原本的工作，返家照顧了將近兩年。這段時間雖然辛苦，卻讓我學到很多照護知識，也讓我重新思考自己真正想做什麼樣的工作。',
@@ -201,7 +211,7 @@ const initialState = {
   workExperiences: [],
   workSkills: '',
   trainings: [],
-  certificates: '',
+  certificates: [],
   majorTurning: '',
   helpingPeople: '',
   affirmations: '',
@@ -264,7 +274,12 @@ export const useInventoryStore = create<InventoryState>((set) => ({
     trainings: state.trainings.filter((item) => item.id !== id),
   })),
   
-  setCertificates: (value: string) => set({ certificates: value }),
+  addCertificate: (cert: Certificate) => set((state) => ({
+    certificates: [...state.certificates, cert],
+  })),
+  removeCertificate: (id: string) => set((state) => ({
+    certificates: state.certificates.filter((item) => item.id !== id),
+  })),
   
   setMajorTurning: (value: string) => set({ majorTurning: value }),
   setHelpingPeople: (value: string) => set({ helpingPeople: value }),
