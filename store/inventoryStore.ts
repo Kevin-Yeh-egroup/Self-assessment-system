@@ -120,14 +120,14 @@ const templateData = {
   workExperiences: [
     {
       id: 'tmpl-w1',
-      period: '2018–2022',
+      period: '107–111',
       jobTitle: '居家照服員',
       jobContent: '協助獨居長者日常生活起居，包括個人衛生、備餐、陪同就醫、協助復健運動等，服務個案約 8 戶。',
       duration: '約 4 年',
     },
     {
       id: 'tmpl-w2',
-      period: '2015–2018',
+      period: '104–107',
       jobTitle: '便當店外場人員',
       jobContent: '負責點餐收銀、備料協助、清潔維護，以及與客人溝通特殊飲食需求，尖峰時段也會支援廚房工作。',
       duration: '約 3 年',
@@ -137,24 +137,24 @@ const templateData = {
   trainings: [
     {
       id: 'tmpl-t1',
-      period: '2017',
+      period: '106',
       courseName: '居家照顧服務員訓練課程（90 小時）',
       institution: '○○縣市社會局',
-      completionDate: '2017/11',
+      completionDate: '106/11',
       hasCertificate: true,
     },
     {
       id: 'tmpl-t2',
-      period: '2023',
+      period: '112',
       courseName: '長照 2.0 喘息服務實務工作坊',
       institution: '○○社會福利基金會',
-      completionDate: '2023/04',
+      completionDate: '112/04',
       hasCertificate: false,
     },
   ],
   certificates: [
-    { id: 'tmpl-c1', name: '居家照顧服務員結業證書', year: '2017' },
-    { id: 'tmpl-c2', name: '食品安全衛生管理人員訓練證書', year: '2016' },
+    { id: 'tmpl-c1', name: '居家照顧服務員結業證書', year: '106' },
+    { id: 'tmpl-c2', name: '食品安全衛生管理人員訓練證書', year: '105' },
   ],
 
   // Step 4

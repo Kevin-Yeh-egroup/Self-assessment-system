@@ -15,6 +15,20 @@ import {
 import { saveAs } from 'file-saver';
 import type { InventoryState } from '@/store/inventoryStore';
 
+function toROCDate(date: Date): string {
+  const rocYear = date.getFullYear() - 1911;
+  const month = date.getMonth() + 1;
+  const day = date.getDate();
+  return `${rocYear}/${month}/${day}`;
+}
+
+function toROCDateCompact(date: Date): string {
+  const rocYear = date.getFullYear() - 1911;
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+  return `${rocYear}${month}${day}`;
+}
+
 function heading1(text: string): Paragraph {
   return new Paragraph({
     text,
@@ -125,7 +139,7 @@ export async function generateWordReport(state: InventoryState): Promise<void> {
           new Paragraph({
             children: [
               new TextRun({
-                text: `產生日期：${new Date().toLocaleDateString('zh-TW')}`,
+                text: `產生日期：民國 ${toROCDate(new Date())}`,
                 size: 20,
                 color: '78716C',
                 font: '微軟正黑體',
@@ -316,5 +330,5 @@ export async function generateWordReport(state: InventoryState): Promise<void> {
   });
 
   const blob = await Packer.toBlob(doc);
-  saveAs(blob, `自我資源盤點報告_${new Date().toLocaleDateString('zh-TW').replace(/\//g, '')}.docx`);
+  saveAs(blob, `自我資源盤點報告_${toROCDateCompact(new Date())}.docx`);
 }
